@@ -1,5 +1,6 @@
 .gradle
 .idea/
+.DS_Store
 build/
 
 # Ignore Gradle GUI config
@@ -13,13 +14,14 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
-sandbox/src/main/.DS_Store
-sandbox/src/main/.DS_Store
-sandbox/src/main/java/.DS_Store
-sandbox/src/main/java/ru/.DS_Store
-sandbox/src/main/java/ru/stqa/.DS_Store
-sandbox/src/main/java/ru/stqa/pft/.DS_Store
-sandbox/src/main/.DS_Store
-sandbox/src/main/.DS_Store
-sandbox/src/.DS_Store
-sandbox/.DS_Store
+#sandbox/src/main/.DS_Store
+#sandbox/src/main/.DS_Store
+#sandbox/src/main/java/.DS_Store
+#sandbox/src/main/java/ru/.DS_Store
+#sandbox/src/main/java/ru/stqa/.DS_Store
+#sandbox/src/main/java/ru/stqa/pft/.DS_Store
+#sandbox/src/main/.DS_Store
+#sandbox/src/main/.DS_Store
+#sandbox/src/.DS_Store
+#sandbox/.DS_Store
+
