@@ -7,8 +7,8 @@ public class MyFirstProgram {
         Point p2 = new Point(5, 6);
         System.out.println("Расстояние между двумя точками с координатами " + '(' + p1.x + ";" + p1.y + ')'  + " и " + '(' + p2.x + ";" + p2.y + ')' + " = " + distance(p1,p2));
 
-        PointMetod p = new PointMetod(2, 1, 5,6);
-        System.out.println("Расстояние между двумя точками p1 и p2 " + p.distance());
+
+        System.out.println("Расстояние между двумя точками p1 и p2 " + p1.distance1(p2));
 
     }
 
