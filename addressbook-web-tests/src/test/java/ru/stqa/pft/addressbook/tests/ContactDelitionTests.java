@@ -8,7 +8,7 @@ public class ContactDelitionTests extends TestBase{
     public void testContactDelition() throws InterruptedException {
         app.getNavigationHelper().goToHomePage();
         if (! app.getContactHelper().isThereAContact()){
-            app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "test2"), true);
+            app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "test2"));
         }
         app.getNavigationHelper().goToHomePage();
         app.getContactHelper().selectContact();

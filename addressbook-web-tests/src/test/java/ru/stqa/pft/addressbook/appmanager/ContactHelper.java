@@ -50,10 +50,16 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[8]/a"));
     }
 
-    public void createContact(ContactData contact, boolean b) {
+    public void createContact(ContactData contact) {
        initNewContact();
-       fillContactForm(contact, b);
+       fillContactForm(contact, true);
        submitContactCreation();
+    }
+
+    public void modificationContact(ContactData contact){
+       editContact();
+       fillContactForm(contact, false);
+       submitContactModification();
     }
 
     public boolean isThereAContact() {

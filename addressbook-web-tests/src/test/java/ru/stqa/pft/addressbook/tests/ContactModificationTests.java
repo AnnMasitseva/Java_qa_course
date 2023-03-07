@@ -8,13 +8,11 @@ public class ContactModificationTests extends TestBase{
     public void testContactModification() throws InterruptedException {
         app.getNavigationHelper().goToHomePage();
         if (! app.getContactHelper().isThereAContact()){
-            app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "test2"), true);
+            app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "test2"));
         }
         app.getNavigationHelper().goToHomePage();
         app.getContactHelper().selectContact();
-        app.getContactHelper().editContact();
-        app.getContactHelper().fillContactForm(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", null), false);
-        app.getContactHelper().submitContactModification();
+        app.getContactHelper().modificationContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", null));
         app.getNavigationHelper().goToHomePage();
     }
 }
