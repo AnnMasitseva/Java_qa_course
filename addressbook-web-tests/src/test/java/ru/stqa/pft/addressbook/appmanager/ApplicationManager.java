@@ -35,7 +35,7 @@ public class ApplicationManager {
             wd = new SafariDriver();
         }
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-        wd.get("http://localhost:8000/addressbook/group.php");
+        wd.get("http://localhost:8000/addressbook");
         groupHelper = new GroupHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
