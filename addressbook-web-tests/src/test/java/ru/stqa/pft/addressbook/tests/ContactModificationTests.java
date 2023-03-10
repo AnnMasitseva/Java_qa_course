@@ -13,6 +13,10 @@ public class ContactModificationTests extends TestBase{
     @Test
     public void testContactModification() throws InterruptedException {
         if (! app.getContactHelper().isThereAContact()){
+            app.getNavigationHelper().gotoGroupPage();
+            if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAGroupName()) {
+                app.getGroupHelper().createGroup(new GroupData("test2", null, null));
+            }
             app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "email@domain.com", "test2"));
         }
         app.getNavigationHelper().goToHomePage();

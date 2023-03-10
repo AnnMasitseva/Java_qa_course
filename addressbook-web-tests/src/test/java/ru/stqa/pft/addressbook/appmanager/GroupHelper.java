@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -66,7 +67,7 @@ public class GroupHelper extends HelperBase {
     public List<GroupData> getGroupList() {
         List<GroupData> groups = new ArrayList<GroupData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
-        for (WebElement element : elements){
+        for (WebElement element : elements) {
             String name = element.getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             GroupData group = new GroupData(id, name, null, null);
@@ -74,4 +75,16 @@ public class GroupHelper extends HelperBase {
         }
         return groups;
     }
+
+    public boolean isThereAGroupName() {
+        try {
+            WebElement groupName = wd.findElement(By.xpath("//span[contains(text(), 'test2')]"));
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+
+    }
 }
+
+
