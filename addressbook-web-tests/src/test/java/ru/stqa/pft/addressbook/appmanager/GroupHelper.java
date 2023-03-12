@@ -76,9 +76,9 @@ public class GroupHelper extends HelperBase {
         return groups;
     }
 
-    public boolean isThereAGroupName() {
+    public boolean isThereAElement(String xpath) {
         try {
-            WebElement groupName = wd.findElement(By.xpath("//span[contains(text(), 'test2')]"));
+            WebElement groupName = wd.findElement(By.xpath(xpath));
             return true;
         } catch (NoSuchElementException ex) {
             return false;
