@@ -12,7 +12,7 @@ public class ContactDelitionTests extends TestBase{
     public void testContactDelition() throws InterruptedException {
         if (! app.getContactHelper().isThereAContact()){
             app.getNavigationHelper().gotoGroupPage();
-            if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAGroupName()){
+            if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAElement("//span[contains(text(), 'test2')]")){
                 app.getGroupHelper().createGroup(new GroupData("test2", null, null));
             }
             app.getContactHelper().createContact(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "email@domain.com", "test2"));
