@@ -1,6 +1,9 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -25,13 +28,13 @@ public class ApplicationManager {
 
     public void init() {
 
-        if (browser.equals(BrowserType.FIREFOX)){
+        if (browser.equals(BrowserType.FIREFOX)) {
             wd = new FirefoxDriver();
-        } else if (browser.equals(BrowserType.CHROME)){
+        } else if (browser.equals(BrowserType.CHROME)) {
             wd = new ChromeDriver();
-        } else if (browser.equals(BrowserType.IE)){
-           wd = new InternetExplorerDriver();
-        }else if (browser.equals(BrowserType.SAFARI)) {
+        } else if (browser.equals(BrowserType.IE)) {
+            wd = new InternetExplorerDriver();
+        } else if (browser.equals(BrowserType.SAFARI)) {
             wd = new SafariDriver();
         }
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
@@ -46,6 +49,7 @@ public class ApplicationManager {
     public void stop() {
         wd.quit();
     }
+
     public void closeAlert() {
         wd.switchTo().alert().accept();
     }
@@ -65,4 +69,6 @@ public class ApplicationManager {
     public SessionHelper getSessionHelper() {
         return sessionHelper;
     }
+
+
 }

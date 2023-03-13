@@ -14,7 +14,7 @@ public class ContactCreationTests extends TestBase {
   @Test
   public void testContactCreationTests() throws Exception {
     app.getNavigationHelper().gotoGroupPage();
-    if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAElement("//span[contains(text(), 'test2')]"))  {
+    if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAGroupName())  {
         app.getGroupHelper().createGroup(new GroupData("test2", null, null));
     }
         app.getNavigationHelper().goToHomePage();
