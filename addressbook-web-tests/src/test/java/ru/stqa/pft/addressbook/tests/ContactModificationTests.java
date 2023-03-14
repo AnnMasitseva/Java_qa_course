@@ -14,10 +14,11 @@ public class ContactModificationTests extends TestBase{
     private void ensurePreconditions(){
         if ( app.contact().list().size() == 0){
             app.goTo().groupPage();
-            if (app.group().list().size() == 0 || ! app.group().isThereAGroupName("test2")) {
-                app.group().create(new GroupData("test2", null, null));
+            if (app.group().all().size() == 0 || ! app.group().isThereAGroupName("test2")) {
+                app.group().create(new GroupData().withName("test2"));
             }
-            app.contact().create(new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "email@domain.com", "test2"));
+            app.contact().create(new ContactData().withFirstname("Anna").withMiddlename("Aleksandrovna").withLastname("Masitseva")
+                    .withAddress("St.Peterburg").withMobile("+79009009090").withEmail("email@domain.com").withGroup("test2"));
         }
         app.goTo().homePage();
 
@@ -26,8 +27,10 @@ public class ContactModificationTests extends TestBase{
     public void testContactModification() throws InterruptedException {
         List<ContactData> before = app.contact().list();
         int index = before.size()-1;
-        app.contact().edit(index);
-        ContactData contact = new ContactData( before.get(index).getId(), "Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "email@domain.com", null);
+        app.contact().selectEditContact(index);
+        ContactData contact = new ContactData().withId(before.get(index).getId())
+                .withFirstname("Anna").withMiddlename("Aleksandrovna").withLastname("Masitseva").withAddress("St.Peterburg")
+                .withMobile("+79009009090").withEmail("email@domain.com");
         app.contact().modify(contact);
         app.goTo().homePage();
         List<ContactData> after = app.contact().list();

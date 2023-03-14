@@ -51,21 +51,25 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//div[@id='content']/form/input[22]"));
     }
 
-    public void editContact(int index) {
+    public void selectEditContact(int index) {
         wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
     }
 
-    public void createContact(ContactData contact) {
+    public void create(ContactData contact) {
        initNewContact();
        fillContactForm(contact, true);
        submitContactCreation();
     }
 
-    public void modificationContact(ContactData contact){
+    public void modify(ContactData contact){
        fillContactForm(contact, false);
        submitContactModification();
     }
 
+    public void delete(int index) {
+        selectContact(index);
+        deleteContact();
+    }
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
@@ -74,15 +78,14 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            String firstname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[3]")).getText();
-            String lastname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[2]")).getText();
-            ContactData contact = new ContactData( id, firstname , null, lastname, null, null, null, null);
-            contacts.add(contact);
+            String firstname = element.findElement(By.xpath(".//td[3]")).getText();
+            String lastname = element.findElement(By.xpath(".//td[2]")).getText();;
+            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
         }
         return contacts;
     }
