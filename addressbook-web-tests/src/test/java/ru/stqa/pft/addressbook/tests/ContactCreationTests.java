@@ -7,22 +7,21 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
   @Test
   public void testContactCreationTests() throws Exception {
-    app.getNavigationHelper().gotoGroupPage();
-    if (! app.getGroupHelper().isThereAGroup() || ! app.getGroupHelper().isThereAGroupName())  {
-        app.getGroupHelper().createGroup(new GroupData("test2", null, null));
+    app.goTo().groupPage();
+    if (! app.group().isThereAGroup() || ! app.group().isThereAGroupName("test2"))  {
+        app.group().create(new GroupData("test2", null, null));
     }
-        app.getNavigationHelper().goToHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+    List<ContactData> before = app.contact().list();
     ContactData contact = new ContactData("Anna", "Aleksandrovna", "Masitseva", "St.Peterburg", "+79009009090", "email@domain.com", "test2");
-    app.getContactHelper().createContact(contact);
-    app.getNavigationHelper().goToHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.contact().create(contact);
+    app.goTo().homePage();
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size()+1);
     contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
     before.add(contact);
@@ -30,7 +29,6 @@ public class ContactCreationTests extends TestBase {
     before.sort(byId);
     after.sort(byId);
     Assert.assertEquals(before, after);
-    app.getSessionHelper().logoutPage();
   }
 }
 
