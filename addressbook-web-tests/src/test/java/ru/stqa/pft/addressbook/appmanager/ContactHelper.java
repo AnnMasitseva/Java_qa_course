@@ -24,6 +24,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"),contactData.getFirstname());
         type(By.name("middlename"),contactData.getMiddlename());
         type(By.name("lastname"),contactData.getLastname());
+        attach(By.name("photo"), contactData.getPhoto());
         type(By.name("address"),contactData.getAddress());
         type(By.name("home"),contactData.getHomePhone());
         type(By.name("work"), contactData.getWorkPhone());
@@ -37,8 +38,8 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void initNewContact() {
-      click(By.linkText("add new"));
+   public void initNewContact() {
+     click(By.linkText("add new"));
     }
 
     public void selectContact(int index) {
