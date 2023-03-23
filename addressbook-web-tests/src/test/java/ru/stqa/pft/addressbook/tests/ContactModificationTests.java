@@ -16,11 +16,11 @@ public class ContactModificationTests extends TestBase{
     private void ensurePreconditions(){
         if ( app.contact().all().size() == 0){
             app.goTo().groupPage();
-            if (app.group().all().size() == 0 || ! app.group().isThereAGroupName("test2")) {
+            if (app.group().all().size() == 0) {
                 app.group().create(new GroupData().withName("test2"));
             }
             app.contact().create(new ContactData().withFirstname("Anna").withMiddlename("Aleksandrovna").withLastname("Masitseva")
-                    .withAddress("St.Peterburg").withMobilePhone("+79009009090").withEmail("email@domain.com").withGroup("test2"));
+                    .withAddress("St.Peterburg").withMobilePhone("+79009009090").withEmail("email@domain.com"));
         }
         app.goTo().homePage();
 
@@ -34,7 +34,7 @@ public class ContactModificationTests extends TestBase{
                 .withMobilePhone("+79009009090").withEmail("email@domain.com");
         app.contact().modify(contact);
         app.goTo().homePage();
-        assertEquals(app.contact().counter(), before.size());
+        assertEquals(app.contact().count(), before.size());
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }

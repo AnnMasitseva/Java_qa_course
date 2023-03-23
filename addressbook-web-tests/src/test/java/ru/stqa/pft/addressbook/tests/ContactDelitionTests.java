@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -28,7 +29,6 @@ public class ContactDelitionTests extends TestBase{
         Contacts before = app.contact().all();
         ContactData deletedContact = before.iterator().next();
         app.contact().delete(deletedContact);
-        app.closeAlert();
         app.goTo().homePage();
         assertEquals(app.contact().count(), before.size()-1);
         Contacts after = app.contact().all();

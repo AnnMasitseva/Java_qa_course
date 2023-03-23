@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,29 +18,29 @@ public class ContactHelper extends HelperBase {
     }
 
     public void submitContactCreation() {
-      click(By.xpath("//div[@id='content']/form/input[21]"));
+        click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
-        type(By.name("firstname"),contactData.getFirstname());
-        type(By.name("middlename"),contactData.getMiddlename());
-        type(By.name("lastname"),contactData.getLastname());
+        type(By.name("firstname"), contactData.getFirstname());
+        type(By.name("middlename"), contactData.getMiddlename());
+        type(By.name("lastname"), contactData.getLastname());
         attach(By.name("photo"), contactData.getPhoto());
-        type(By.name("address"),contactData.getAddress());
-        type(By.name("home"),contactData.getHomePhone());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("home"), contactData.getHomePhone());
         type(By.name("work"), contactData.getWorkPhone());
         type(By.name("mobile"), contactData.getMobilePhone());
-        type(By.name("email"),contactData.getEmail());
+        type(By.name("email"), contactData.getEmail());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-        }else {
+            new Select(wd.findElement(By.name("new_group"))).selectByIndex(1);
+        } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
     }
 
-   public void initNewContact() {
-     click(By.linkText("add new"));
+    public void initNewContact() {
+        click(By.linkText("add new"));
     }
 
     public void selectContact(int index) {
@@ -48,6 +49,8 @@ public class ContactHelper extends HelperBase {
 
     public void deleteContact() {
         click(By.xpath("//input[@value='Delete']"));
+        wd.switchTo().alert().accept();
+        wd.findElement(By.cssSelector("div.msgbox"));
     }
 
     public void submitContactModification() {
@@ -57,34 +60,33 @@ public class ContactHelper extends HelperBase {
     public void selectEditContact(int index) {
         wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
     }
+
     public void selectEditContactById(int id) {
 
-        wd.findElement(By.cssSelector("a[href='edit.php?id=" + id +"']")).click();
+        wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
     }
+
     private void selectContactById(int id) {
-        wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void create(ContactData contact) {
-       initNewContact();
-       fillContactForm(contact, true);
-       submitContactCreation();
+        initNewContact();
+        fillContactForm(contact, true);
+        submitContactCreation();
+        contactCache = null;
     }
 
-    public void modify(ContactData contact){
+    public void modify(ContactData contact) {
         selectEditContactById(contact.getId());
-       fillContactForm(contact, false);
-       submitContactModification();
-    }
-
-    public void delete(int index) {
-        selectContact(index);
-        deleteContact();
+        fillContactForm(contact, false);
+        submitContactModification();
     }
 
     public void delete(ContactData contact) {
         selectContactById(contact.getId());
         deleteContact();
+        contactCache = null;
     }
 
 
@@ -92,13 +94,14 @@ public class ContactHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public int counter() {
+    public int count() {
         return wd.findElements(By.name("selected[]")).size();
     }
+
     private Contacts contactCache = null;
 
     public Contacts all() {
-        if (contactCache != null){
+        if (contactCache != null) {
             return new Contacts(contactCache);
         }
 

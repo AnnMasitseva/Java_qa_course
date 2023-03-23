@@ -4,6 +4,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -51,27 +52,29 @@ public class ContactCreationTests extends TestBase {
       }
   }
 
+    @BeforeMethod
+    private void ensurePreconditions(){
+        app.goTo().groupPage();
+        if (app.group().all().size() == 0 ){
+            app.group().create(new GroupData().withName("test2"));
+        }
+    }
+
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreationTests(ContactData contact) {
-    app.goTo().groupPage();
-   if (app.group().all().size() == 0 || ! app.group().isThereAGroupName("test2")){
-      app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test2"));
-    }
     app.goTo().homePage();
     Contacts before = app.contact().all();
     //File photo = new File("src/test/resources/cat.png");
     app.contact().create(contact);
     app.goTo().homePage();
-    Contacts after = app.contact().all();
-    System.out.println(after);
     assertThat(app.contact().count(), equalTo(before.size()+1));
+    Contacts after = app.contact().all();
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
   @Test(enabled = false)
-  public void testContactBadCreationTests() throws Exception {
+  public void testContactBadCreationTests(){
     app.goTo().groupPage();
     if (app.group().all().size() == 0 || ! app.group().isThereAGroupName("test2"))  {
       app.group().create(new GroupData().withName("test2"));
@@ -86,7 +89,6 @@ public class ContactCreationTests extends TestBase {
     Contacts after = app.contact().all();
     assertThat(after, equalTo(before));
   }
-
 }
 
 
