@@ -30,7 +30,7 @@ public class ContactDelitionTests extends TestBase{
         app.contact().delete(deletedContact);
         app.closeAlert();
         app.goTo().homePage();
-        assertEquals(app.contact().counter(), before.size()-1);
+        assertEquals(app.contact().count(), before.size()-1);
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(deletedContact)));
     }
