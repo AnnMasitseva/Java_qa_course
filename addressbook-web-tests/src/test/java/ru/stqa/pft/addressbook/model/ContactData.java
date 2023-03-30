@@ -2,39 +2,56 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import jakarta.persistence.*;
 
 import java.io.File;
 import java.util.Objects;
-
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
     @XStreamOmitField
+    @Id
+    @Column(name="id")
     private  int id = Integer.MAX_VALUE;
     @Expose
+    @Column(name="firstname")
     private String firstname;
-
+    @Transient
     private String middlename;
     @Expose
+    @Column(name="lastname")
     private  String lastname;
     @Expose
+    @Transient
+    @Column(name="address")
     private String address;
-
+    @Column(name="home")
     private String homePhone;
     @Expose
+    @Column(name="mobile")
     private  String mobilePhone;
+    @Column(name="work")
     private String workPhone;
+    @Transient
     private String allPhones;
     @Expose
+    @Transient
     private  String group;
     @Expose
+    @Column(name="email")
     private  String email;
+
     private  String email2;
+
     private  String email3;
+    @Transient
     private  String allEmails;
-    private File photo;
+
+    private String photo;
 
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public String getEmail2() {
@@ -59,7 +76,7 @@ public class ContactData {
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
@@ -185,7 +202,12 @@ public class ContactData {
 
         if (id != that.id) return false;
         if (!Objects.equals(firstname, that.firstname)) return false;
-        return Objects.equals(lastname, that.lastname);
+        if (!Objects.equals(lastname, that.lastname)) return false;
+        if (!Objects.equals(address, that.address)) return false;
+        if (!Objects.equals(homePhone, that.homePhone)) return false;
+        if (!Objects.equals(mobilePhone, that.mobilePhone)) return false;
+        if (!Objects.equals(workPhone, that.workPhone)) return false;
+        return Objects.equals(email, that.email);
     }
 
     @Override
@@ -193,6 +215,11 @@ public class ContactData {
         int result = id;
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+        result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 }

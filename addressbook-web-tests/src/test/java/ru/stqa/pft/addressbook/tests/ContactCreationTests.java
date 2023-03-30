@@ -54,39 +54,36 @@ public class ContactCreationTests extends TestBase {
 
     @BeforeMethod
     private void ensurePreconditions(){
-        app.goTo().groupPage();
-        if (app.group().all().size() == 0 ){
-            app.group().create(new GroupData().withName("test2"));
+        if (app.db().groups().size() == 0){
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("test1"));
         }
     }
 
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreationTests(ContactData contact) {
     app.goTo().homePage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     //File photo = new File("src/test/resources/cat.png");
     app.contact().create(contact);
     app.goTo().homePage();
     assertThat(app.contact().count(), equalTo(before.size()+1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
-  @Test(enabled = false)
+  @Test
   public void testContactBadCreationTests(){
-    app.goTo().groupPage();
-    if (app.group().all().size() == 0 || ! app.group().isThereAGroupName("test2"))  {
-      app.group().create(new GroupData().withName("test2"));
-    }
     app.goTo().homePage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
+    File photo = new File("src/test/resources/cat.png");
     ContactData contact = new ContactData()
-            .withFirstname("Anna'").withGroup("test2");
+            .withFirstname("Anna'").withPhoto(photo);
     app.contact().create(contact);
     app.goTo().homePage();
     assertThat(app.contact().count(), equalTo(before.size()));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(before));
   }
 }
