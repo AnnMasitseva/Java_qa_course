@@ -104,7 +104,6 @@ public class GroupHelper extends HelperBase {
     public boolean isThereAGroupName(String groupName) {
         return isThereAElement(By.xpath("//span[contains(text(),'"+groupName+"')]"));
         }
-
 }
 
 
