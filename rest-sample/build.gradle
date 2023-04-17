@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+test {
+    useTestNG()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.7.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    implementation 'org.apache.httpcomponents:fluent-hc:4.5.14'
+    implementation 'io.rest-assured:rest-assured:5.3.0'
+
+}
+
+
+
