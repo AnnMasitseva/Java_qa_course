@@ -141,44 +141,43 @@ public class ContactHelper extends HelperBase {
                 .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
     }
 
-
-    public int addInGroup(ContactData contact, Groups groupsList) {
-        int idGroup = 0;
-        List<WebElement> options = wd.findElements(By.xpath("//select[@name = 'to_group']/option"));
-
-        selectContactById(contact.getId());
-        click(By.name("to_group"));
-
-        for (WebElement option : options) {
-            boolean isInGroup = false;
-            for (GroupData group : groupsList) {
-                if (Integer.parseInt(option.getAttribute("value")) == group.getId()) {
-                    isInGroup = true;
-                }
-            }
-            if (!isInGroup) {
-                idGroup = Integer.parseInt(option.getAttribute("value"));
-                new Select(wd.findElement(By.name("to_group"))).selectByValue(String.format("%s", option.getAttribute("value")));
-                click(By.name("add"));
-                break;
+    public GroupData getGroupToAdd(Groups groups, ContactData contact) {
+        Groups beforeAssignmentGroups = contact.getGroups();
+        for(GroupData group : groups) {
+            if(!beforeAssignmentGroups.contains(group)) {
+                return group;
             }
         }
-        return idGroup;
+        return null;
     }
 
-    public void addIntoGroup(ContactData contact) {
-        WebElement option = wd.findElement(By.xpath("//select[@name = 'to_group']/option[1]"));
+    public void addContact(ContactData contact, GroupData group) {
+        homePage();
         selectContactById(contact.getId());
-        click(By.name("to_group"));
-        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(option.getText());
-        click(By.name("add"));
+        addSelectedContactToGroup(group);
+        contactCache = null;
+        homePage();
     }
 
-    public void deleteFromGroup(ContactData contact, int groupId) {
-        click(By.name("group"));
-        WebElement option = wd.findElement(By.xpath(String.format("//select[@name='group']/option[@value=%s]", groupId)));
-        new Select(wd.findElement(By.name("group"))).selectByValue(String.format("%s", option.getAttribute("value")));
-        selectContactById(contact.getId());
+    private void addSelectedContactToGroup(GroupData group) {
+        new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(group.getId()));
+        click(By.xpath("//div[@id='content']/form[2]/div[4]/input"));
+    }
+
+    private void homePage() {
+        if (isElementPresent(By.id("maintable"))) {
+            return;
+        }
+        click(By.linkText("home"));
+    }
+
+    public void contactsFilterByGroup(int id) {
+        wd.findElement(By.xpath("//select[@name='group']")).click();
+        wd.findElement(By.xpath("//option[@value='" + id + "']")).click();
+    }
+
+    public void remove() {
         click(By.name("remove"));
     }
 }
+

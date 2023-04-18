@@ -9,6 +9,7 @@ import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +27,7 @@ public class ApplicationManager {
     private SessionHelper sessionHelper;
     private String browser;
     private DbHelper dbHelper;
+    private ContactData contactData;
 
     public ApplicationManager(String browser)  {
 
@@ -87,6 +89,7 @@ public class ApplicationManager {
         return sessionHelper;
     }
     public DbHelper db(){return dbHelper;}
-
-
+    public ContactData contactData(){
+        return contactData();
+    }
 }

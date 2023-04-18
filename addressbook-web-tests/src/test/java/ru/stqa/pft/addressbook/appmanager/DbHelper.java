@@ -39,20 +39,32 @@ public class DbHelper {
         session.close();
         return new Contacts(result);
     }
-    public GroupData group(int id) {
+
+    public ContactData contactById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<GroupData> result = session.createQuery("from GroupData where id = '" + id + "'").list();
+        ContactData result = (ContactData) session.createQuery("from  ContactData where id=" +id).uniqueResult();
         session.getTransaction().commit();
         session.close();
-        return result.get(0);
+        return result;
     }
-    public ContactData contact(int id) {
+
+    public GroupData groupForRemoveContact() {
+        Groups groups = groups();
+        for (GroupData group : groups) {
+            if (group.getContacts().size() > 0) {
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public GroupData getGroupFromDb(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<ContactData> result = session.createQuery("from ContactData where id = '" + id + "'").list();
+        GroupData result = (GroupData) session.createQuery("from GroupData where id=" + id).getSingleResult();
         session.getTransaction().commit();
         session.close();
-        return result.get(0);
+        return result;
     }
 }
